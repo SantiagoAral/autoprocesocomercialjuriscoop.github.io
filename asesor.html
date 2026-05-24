@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juriscoop – Portal Asesor</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header__inner">
+      <div class="header__brand">
+        <img src="logo.png" alt="Juriscoop" class="header__logo-img" />
+      </div>
+      <div class="header__titles">
+        <h1 class="header__title">Portal Asesor</h1>
+        <p class="header__subtitle">Mis casos de gestión asignados.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE NAV -->
+  <nav class="page-nav">
+    <div class="page-nav__inner">
+      <a href="index.html"  class="page-nav__link">Carga de archivo</a>
+      <a href="admin.html"  class="page-nav__link">Panel Admin</a>
+      <a href="asesor.html" class="page-nav__link active">Portal Asesor</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- ADVISOR SELECTOR -->
+    <div class="asesor-bar">
+      <span class="asesor-bar__label">Mostrando casos de:</span>
+      <select id="sel-asesor-login" class="filter-select">
+        <option value="">Todos los asesores</option>
+      </select>
+      <a id="btn-historial-asesor" href="#" class="btn btn--secondary btn--sm hidden">
+        🕐 Ver historial
+      </a>
+    </div>
+
+    <!-- KPI CARDS -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-card__label">Total asignados</span>
+        <span class="kpi-card__value" id="kpi-total">—</span>
+        <span class="kpi-card__sub">casos en mi lista</span>
+      </div>
+      <div class="kpi-card kpi-card--warning">
+        <span class="kpi-card__label">Pendientes</span>
+        <span class="kpi-card__value" id="kpi-pendientes">—</span>
+        <span class="kpi-card__sub">por contactar</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card__label">En gestión</span>
+        <span class="kpi-card__value" id="kpi-en-gestion">—</span>
+        <span class="kpi-card__sub">en proceso</span>
+      </div>
+      <div class="kpi-card kpi-card--success">
+        <span class="kpi-card__label">Completados</span>
+        <span class="kpi-card__value" id="kpi-completados">—</span>
+        <span class="kpi-card__sub">cerrados con éxito</span>
+      </div>
+    </div>
+
+    <!-- CASOS -->
+    <section class="card">
+      <div class="section-header">
+        <span class="section-title">Mis casos</span>
+        <div class="filter-pills">
+          <button class="pill active" data-filter="todos">Todos</button>
+          <button class="pill" data-filter="pendiente">Pendientes</button>
+          <button class="pill" data-filter="en-gestion">En gestión</button>
+          <button class="pill" data-filter="completado">Completados</button>
+          <button class="pill" data-filter="no-contesta">No contesta</button>
+        </div>
+      </div>
+
+      <div class="data-table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Cliente</th>
+              <th>Teléfono</th>
+              <th>Producto</th>
+              <th>Vencimiento</th>
+              <th>Objetivo</th>
+              <th>Estado</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-casos"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Juriscoop · Sistema de Gestión Comercial · MVP v1.0</p>
+  </footer>
+
+  <!-- MODAL GESTIÓN -->
+  <div class="modal-backdrop hidden" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <p class="modal__title" id="modal-title">Registrar gestión</p>
+      <p class="modal__subtitle" id="modal-cliente-info"></p>
+
+      <div class="form-group">
+        <label for="sel-estado">Nuevo estado</label>
+        <select id="sel-estado">
+          <option value="pendiente">Pendiente</option>
+          <option value="en-gestion">En gestión</option>
+          <option value="no-contesta">No contesta</option>
+          <option value="completado">Completado</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="txt-nota">Nota (opcional)</label>
+        <textarea id="txt-nota" rows="3" placeholder="Ej: El cliente solicitó ser contactado mañana a las 10 AM."></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn--secondary" id="btn-modal-cancel" type="button">Cancelar</button>
+        <button class="btn btn--primary" id="btn-modal-save" type="button">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script src="asesor.js"></script>
+</body>
+</html>

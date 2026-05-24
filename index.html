@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juriscoop – Carga de archivo comercial</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- SheetJS para lectura de .xlsx y .csv -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       HEADER
+  ════════════════════════════════════════════ -->
+  <header class="header">
+    <div class="header__inner">
+      <div class="header__brand">
+        <img
+          src="logo.png"
+          alt="Juriscoop"
+          class="header__logo-img"
+        />
+      </div>
+      <div class="header__titles">
+        <h1 class="header__title">Carga de archivo comercial</h1>
+        <p class="header__subtitle">
+          Sube el archivo Excel con la cartera de clientes para generar los casos de gestión.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE NAV -->
+  <nav class="page-nav">
+    <div class="page-nav__inner">
+      <a href="index.html"  class="page-nav__link active">Carga de archivo</a>
+      <a href="admin.html"  class="page-nav__link">Panel Admin</a>
+      <a href="asesor.html" class="page-nav__link">Portal Asesor</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN CONTENT
+  ════════════════════════════════════════════ -->
+  <main class="main">
+
+    <!-- TARJETA DE CARGA -->
+    <section class="card" id="section-upload">
+      <h2 class="card__heading">
+        <span class="card__step">01</span> Seleccionar archivo
+      </h2>
+
+      <div class="dropzone" id="dropzone">
+        <input
+          type="file"
+          id="file-input"
+          accept=".xlsx,.csv"
+          class="dropzone__input"
+          aria-label="Seleccionar archivo Excel o CSV"
+        />
+        <div class="dropzone__content">
+          <svg class="dropzone__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/>
+          </svg>
+          <p class="dropzone__label">
+            Arrastra tu archivo aquí o <span class="dropzone__link">selecciona desde tu equipo</span>
+          </p>
+          <p class="dropzone__hint">Formatos permitidos: <strong>.xlsx</strong> · <strong>.csv</strong></p>
+        </div>
+      </div>
+
+      <!-- Nombre del archivo seleccionado -->
+      <div class="file-info hidden" id="file-info">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" class="file-info__icon">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+        </svg>
+        <span id="file-name">—</span>
+        <button class="btn-ghost" id="btn-clear" type="button" title="Quitar archivo">✕</button>
+      </div>
+
+      <!-- Mensajes de validación -->
+      <div class="alert hidden" id="alert-format" role="alert">
+        <span class="alert__icon">⚠</span>
+        <span id="alert-format-msg">Formato no permitido. Usa .xlsx o .csv.</span>
+      </div>
+
+      <div class="upload-actions">
+        <button class="btn btn--primary" id="btn-process" type="button" disabled>
+          Procesar archivo
+        </button>
+      </div>
+    </section>
+
+    <!-- VALIDACIÓN DE COLUMNAS -->
+    <section class="card hidden" id="section-validation">
+      <h2 class="card__heading">
+        <span class="card__step">02</span> Validación de columnas
+      </h2>
+      <div id="validation-result"></div>
+    </section>
+
+    <!-- RESUMEN -->
+    <section class="card hidden" id="section-summary">
+      <h2 class="card__heading">
+        <span class="card__step">03</span> Resumen del archivo
+      </h2>
+      <div class="summary-grid" id="summary-grid"></div>
+    </section>
+
+    <!-- VISTA PREVIA -->
+    <section class="card hidden" id="section-preview">
+      <h2 class="card__heading">
+        <span class="card__step">04</span> Vista previa <span class="badge">primeras 5 filas</span>
+      </h2>
+      <div class="table-wrapper">
+        <table class="preview-table" id="preview-table">
+          <thead id="preview-thead"></thead>
+          <tbody id="preview-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- RESULTADO SIMULADO -->
+    <section class="card hidden" id="section-result">
+      <h2 class="card__heading">
+        <span class="card__step">05</span> Resultado del envío
+      </h2>
+      <div id="result-content"></div>
+      <div class="result-actions hidden" id="result-actions">
+        <button class="btn btn--secondary" id="btn-new" type="button">Cargar otro archivo</button>
+        <a href="admin.html"  class="btn btn--secondary">Panel Admin</a>
+        <a href="asesor.html" class="btn btn--secondary">Portal Asesor</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Juriscoop · Sistema de Gestión Comercial · MVP v1.0</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

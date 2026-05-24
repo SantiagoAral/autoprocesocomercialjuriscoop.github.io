@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juriscoop – Panel Admin</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header__inner">
+      <div class="header__brand">
+        <img src="logo.png" alt="Juriscoop" class="header__logo-img" />
+      </div>
+      <div class="header__titles">
+        <h1 class="header__title">Panel Admin</h1>
+        <p class="header__subtitle">Seguimiento consolidado de casos por asesor.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE NAV -->
+  <nav class="page-nav">
+    <div class="page-nav__inner">
+      <a href="index.html"  class="page-nav__link">Carga de archivo</a>
+      <a href="admin.html"  class="page-nav__link active">Panel Admin</a>
+      <a href="asesor.html" class="page-nav__link">Portal Asesor</a>
+      <button class="btn-logout" id="btn-logout" type="button">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- KPI CARDS -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-card__label">Total casos</span>
+        <span class="kpi-card__value" id="kpi-total">—</span>
+        <span class="kpi-card__sub">en el sistema</span>
+      </div>
+      <div class="kpi-card kpi-card--warning">
+        <span class="kpi-card__label">Pendientes</span>
+        <span class="kpi-card__value" id="kpi-pendientes">—</span>
+        <span class="kpi-card__sub">sin contactar</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card__label">En gestión</span>
+        <span class="kpi-card__value" id="kpi-en-gestion">—</span>
+        <span class="kpi-card__sub">en proceso</span>
+      </div>
+      <div class="kpi-card kpi-card--success">
+        <span class="kpi-card__label">Completados</span>
+        <span class="kpi-card__value" id="kpi-completados">—</span>
+        <span class="kpi-card__sub">cerrados con éxito</span>
+      </div>
+    </div>
+
+    <!-- MAIN CARD: TABS -->
+    <section class="card">
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="tab-casos">Gestión de casos</button>
+        <button class="nav-tab" data-tab="tab-cargas">Cargas de archivo</button>
+      </div>
+
+      <!-- ── TAB: Gestión de casos ── -->
+      <div id="tab-casos" class="tab-panel active">
+        <div class="section-header">
+          <span class="section-title">Todos los casos</span>
+          <button class="btn btn--secondary" id="btn-export" type="button">Exportar CSV</button>
+        </div>
+
+        <div class="filter-bar">
+          <select id="filter-asesor" class="filter-select">
+            <option value="todos">Todos los asesores</option>
+          </select>
+          <a id="btn-historial-admin" href="#" class="btn btn--secondary btn--sm hidden">
+            🕐 Ver historial
+          </a>
+          <div class="filter-pills">
+            <button class="pill active" data-filter="todos">Todos</button>
+            <button class="pill" data-filter="pendiente">Pendientes</button>
+            <button class="pill" data-filter="en-gestion">En gestión</button>
+            <button class="pill" data-filter="no-contesta">No contesta</button>
+            <button class="pill" data-filter="completado">Completados</button>
+          </div>
+        </div>
+
+        <div class="search-bar">
+          <input
+            type="search"
+            class="search-input"
+            id="search-casos"
+            placeholder="Buscar por cliente, asesor o ID…"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ID Caso</th>
+                <th>Cliente</th>
+                <th>Producto</th>
+                <th>Asesor</th>
+                <th>Estado</th>
+                <th>Vencimiento</th>
+                <th>Última actividad</th>
+                <th>Último comentario</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-casos-admin"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── TAB: Cargas de archivo ── -->
+      <div id="tab-cargas" class="tab-panel">
+        <div class="section-header">
+          <span class="section-title">Historial de cargas</span>
+          <a href="index.html" class="btn btn--primary">+ Nueva carga</a>
+        </div>
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Archivo</th>
+                <th>Fecha</th>
+                <th>Total filas</th>
+                <th>OK</th>
+                <th>Errores</th>
+                <th>% éxito</th>
+                <th>Estado</th>
+                <th>Usuario</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-cargas"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Juriscoop · Sistema de Gestión Comercial · MVP v1.0</p>
+  </footer>
+
+  <script src="app.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juriscoop – Historial de actividad</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header__inner">
+      <div class="header__brand">
+        <img src="logo.png" alt="Juriscoop" class="header__logo-img" />
+      </div>
+      <div class="header__titles">
+        <h1 class="header__title">Historial de actividad</h1>
+        <p class="header__subtitle" id="header-subtitle">Cargando caso…</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE NAV -->
+  <nav class="page-nav">
+    <div class="page-nav__inner">
+      <a href="index.html"  class="page-nav__link">Carga de archivo</a>
+      <a href="admin.html"  class="page-nav__link">Panel Admin</a>
+      <a href="asesor.html" class="page-nav__link active">Portal Asesor</a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- CASE SUMMARY CARD -->
+    <section class="card historial-header-card" id="case-summary">
+
+      <!-- Selector de asesor -->
+      <div class="historial-selector">
+        <label for="sel-historial-asesor" class="historial-selector__label">Ver historial de:</label>
+        <select id="sel-historial-asesor" class="filter-select historial-selector__select">
+          <option value="">— Selecciona un asesor —</option>
+        </select>
+      </div>
+
+      <div class="historial-meta" id="historial-meta">
+        <!-- Populated by historial.js -->
+      </div>
+
+      <a href="javascript:history.back()" class="btn btn--secondary historial-back-btn">← Volver</a>
+    </section>
+
+    <!-- TIMELINE CARD -->
+    <section class="card">
+      <div class="section-header" style="margin-bottom: 24px;">
+        <span class="section-title">Línea de tiempo</span>
+        <span class="badge" id="badge-total">0 registros</span>
+      </div>
+
+      <!-- Empty state shown when no gestiones exist yet -->
+      <div class="empty-state hidden" id="empty-historial">
+        <div class="empty-state__icon">🕓</div>
+        <div class="empty-state__text">Este caso no tiene actividad registrada aún.<br>Los cambios de estado aparecerán aquí.</div>
+      </div>
+
+      <!-- Timeline list -->
+      <ol class="timeline" id="timeline-list">
+        <!-- Entries injected by historial.js -->
+      </ol>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Juriscoop · Sistema de Gestión Comercial · MVP v1.0</p>
+  </footer>
+
+  <script src="app.js"></script>
+  <script src="historial.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juriscoop – Acceso Admin</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header__inner">
+      <div class="header__brand">
+        <img src="logo.png" alt="Juriscoop" class="header__logo-img" />
+      </div>
+      <div class="header__titles">
+        <h1 class="header__title">Panel Admin</h1>
+        <p class="header__subtitle">Acceso restringido a administradores.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main main--centered">
+
+    <div class="login-card card">
+      <div class="login-card__header">
+        <p class="login-card__title">Iniciar sesión</p>
+        <p class="login-card__subtitle">Ingresa tus credenciales para continuar.</p>
+      </div>
+
+      <form id="login-form" novalidate>
+
+        <div class="form-group">
+          <label for="inp-user">Usuario</label>
+          <input
+            type="text"
+            id="inp-user"
+            placeholder="admin"
+            autocomplete="username"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="inp-pass">Contraseña</label>
+          <input
+            type="password"
+            id="inp-pass"
+            placeholder="••••••••"
+            autocomplete="current-password"
+            required
+          />
+        </div>
+
+        <div class="alert alert--error hidden" id="login-error" role="alert">
+          <span class="alert__icon">⚠</span>
+          <span>Usuario o contraseña incorrectos.</span>
+        </div>
+
+        <div class="login-card__actions">
+          <button class="btn btn--primary login-card__submit" type="submit">
+            Ingresar
+          </button>
+        </div>
+
+      </form>
+
+      <p class="login-card__hint">
+        <!-- MVP: credentials are hardcoded. Replace with real auth before production. -->
+        Acceso demo: <strong>admin</strong> / <strong>juriscoop2026</strong>
+      </p>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Juriscoop · Sistema de Gestión Comercial · MVP v1.0</p>
+  </footer>
+
+  <script>
+    'use strict';
+
+    // If already authenticated in this session, skip the login screen
+    if (sessionStorage.getItem('juriscoop_admin_auth') === 'true') {
+      location.replace('admin.html');
+    }
+
+    // ── MVP CREDENTIALS ──
+    // Replace this block with a real API call when backend auth is ready.
+    const VALID_USER = 'admin';
+    const VALID_PASS = 'juriscoop2026';
+
+    const form       = document.getElementById('login-form');
+    const inpUser    = document.getElementById('inp-user');
+    const inpPass    = document.getElementById('inp-pass');
+    const errorAlert = document.getElementById('login-error');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      errorAlert.classList.add('hidden');
+
+      const user = inpUser.value.trim();
+      const pass = inpPass.value;
+
+      if (user === VALID_USER && pass === VALID_PASS) {
+        sessionStorage.setItem('juriscoop_admin_auth', 'true');
+        location.replace('admin.html');
+      } else {
+        errorAlert.classList.remove('hidden');
+        inpPass.value = '';
+        inpPass.focus();
+      }
+    });
+
+    // Hide error as soon as the user starts typing again
+    [inpUser, inpPass].forEach(function (el) {
+      el.addEventListener('input', function () {
+        errorAlert.classList.add('hidden');
+      });
+    });
+  </script>
+
+</body>
+</html>
